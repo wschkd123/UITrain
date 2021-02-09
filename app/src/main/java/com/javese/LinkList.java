@@ -65,11 +65,11 @@ public class LinkList {
         }
         return current;
 
-        if (current == first) {
-            first = first.next;
-        } else {
-            previous.next = current.next;
-        }
-        return current;
+//        if (current == first) {
+//            first = first.next;
+//        } else {
+//            previous.next = current.next;
+//        }
+//        return current;
     }
 }

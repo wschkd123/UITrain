@@ -1,7 +1,17 @@
 package com.wsc.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.KeyCharacterMap;
 import android.view.WindowManager;
 
 /**
@@ -43,10 +53,25 @@ public class DisplayUtil {
         return dm.widthPixels;
     }
 
-//    // 屏幕高度（像素）
-//    public static int getWindowHeight(Activity context) {
-//        DisplayMetrics metric = new DisplayMetrics();
-//        context.getWindowManager().getDefaultDisplay().getMetrics(metric);
-//        return metric.heightPixels;
-//    }
+    // 屏幕高度（像素）
+    public static int getWindowHeight(Activity context) {
+        DisplayMetrics metric = new DisplayMetrics();
+        context.getWindowManager().getDefaultDisplay().getMetrics(metric);
+        return metric.heightPixels;
+    }
+
+    public static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
+        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            drawable = (DrawableCompat.wrap(drawable)).mutate();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
 }
